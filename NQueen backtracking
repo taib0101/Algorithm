@@ -1,0 +1,70 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int N = 10;
+bool cboard[N][N];
+bool safe(vector < pair < int , int > > pv,int row, int col)
+{
+    if(pv.size() == 0)
+        return 1;
+    int rrow, ccol;
+    for(int i = 0; i < pv.size(); ++i)
+    {
+
+        rrow = pv[i].first;
+        ccol = pv[i].second;
+
+        if(rrow == row)
+            return 0;
+        else if(ccol == col)
+            return 0;
+        else if(abs(rrow - row) == abs(ccol - col))
+            return 0;
+    }
+//    cout << "rrow = " << rrow << ", ccol = " << ccol << endl;
+    return 1;
+}
+int a = 0;
+bool nqueen(vector < pair < int , int > > pv,int col,int board[N][N], int n)
+{
+    if(col == n)
+    {
+//        cout << "return" << endl;
+//        cout << "column = " << col << endl;
+        return 1;
+    }
+
+    for(int i = 0; i < n; ++i)
+    {
+        if(safe(pv,i,col))
+        {
+            pv.push_back({i,col});
+            cboard[i][col] = 1;
+            if(nqueen(pv,col+1,board,n))
+                return 1;
+            pv.pop_back();
+            cboard[i][col] = 0;
+        }
+    }
+    return 0;
+}
+int main()
+{
+    int n;
+    while(cin >> n)
+    {
+        int board[N][N];
+        memset(board,0,sizeof(board));
+        memset(cboard,0,sizeof(cboard));
+        vector < pair < int , int > > pv;
+        if(nqueen(pv,0,board,n))
+        {
+            for(int i = 0; i < n; ++i)
+            {
+                for(int j = 0; j < n; ++j)
+                    cout << cboard[i][j] << " ";
+                cout << endl;
+            }
+        }
+    }
+    return 0;
+}
