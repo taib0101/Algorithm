@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
-const int N = 10;
+const int N = 11;
 bool cboard[N][N];
 bool safe(vector < pair < int , int > > pv,int row, int col)
 {
@@ -72,8 +72,8 @@ int main()
 10 queen possibility solution
 #include<bits/stdc++.h>
 using namespace std;
-const int N = 10;
-bool cboard[725][N][N];
+const int N = 11;
+bool cboard[726][N][N];
 int a;
 bool safe(vector < pair < int,int > > pv,int r1, int c1)
 {
