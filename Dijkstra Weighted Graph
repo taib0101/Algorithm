@@ -21,27 +21,35 @@ class cmp
         return a.cost_dis > b.cost_dis;// 
     }
 };
+void show(priority_queue < node,vector < node >, cmp > q)
+{
+    while(!q.empty())
+    {
+        cout << "cost = " << q.top().cost_dis<< endl;
+        q.pop();
+    }
+}
 void dijkstra(int s,vector < int > vc[],vector < int > arr)
 {
     priority_queue < node ,vector < node > ,cmp > q;
     q.push({s,0});
     dis[s] = 0;
-    //cout << "dhok" << endl;
+
     while(!q.empty())
     {
         int u = q.top().vertex;
+        if(!vis[u])
+            show(q);
         q.pop();
-        //q.erase(q.begin(),q.begin()+1);
-        for(int i = 0; i < vc[u].size() && !vis[u]; ++i)// this is needed 
+        for(int i = 0; i < vc[u].size() && !vis[u]; ++i)
         {
             int v = vc[u][i];
-            if(!vis[v])// this not needed in dijkstra
-            {
+            // if(!vis[v])
+            // {
                 if(dis[u] + edge_cost[u][v] < dis[v])
-                    dis[v] = dis[u] + edge_cost[u][v];//you can push node if distance of vertex is update in minimum shortest distance of edge cost in dijkstra
-                                                        // algorithm
-                q.push({v,dis[v]});
-            }
+                    dis[v] = dis[u] + edge_cost[u][v],q.push({v,dis[v]});
+                //cout << "dis = " << dis[v] << endl;
+            // }
         }
         vis[u] = 1;
         //sort(q.begin(),q.end(),cmp);
