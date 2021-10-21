@@ -85,3 +85,48 @@ int main()
 3 4
 3
 */
+////////////////////////////////////////////////////////////
+Another Implement
+//////////////////////////////
+
+
+#include<bits/stdc++.h>
+using namespace std;
+int co;
+void dfs(vector < int > gh[],bool *vs,int u,int *dis,int *fin)
+{
+    vs[u] = 1;
+    dis[u] = co;
+    co++;
+    for(int i = 0; i < gh[u].size(); ++i)
+    {
+        int v = gh[u][i];
+        if(!vs[v])
+            dfs(gh,vs,v,dis,fin);
+    }
+    fin[u] = co;
+    co++;
+}
+int main()
+{
+    int n, e;
+    while(cin >> n >> e)
+    {
+        vector < int > gh[100];
+        for(int i = 0; i < e; ++i)
+        {
+            int u, v;
+            cin >> u >> v;
+            gh[u].push_back(v);
+        }
+        bool vs[110];
+        memset(vs,0,sizeof(vs));
+
+        int dis[110], fin[110];
+        co = 1;
+        dfs(gh,vs,1,dis,fin);
+        for(int i = 1; i <= n; ++i)
+            printf("discovery[%d] = %d, finish[%d] = %d\n",i,dis[i],i,fin[i]);
+    }
+    return 0;
+}
