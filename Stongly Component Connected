@@ -1,0 +1,138 @@
+// I seek refuse with Allah , from the accursed shaytan(Devil)
+// In the of Allah , the entirely Merciful , the Specially Merciful
+// This Algorithm Is Implemented by DFS
+//Complexity O(V+E) FOR G, and GT;
+/*
+8 10
+3 0
+0 1
+1 2
+2 3
+2 4
+4 5
+5 6
+6 4
+7 6
+7 8
+*/
+#include<bits/stdc++.h>
+using namespace std;
+
+stack < int > st;
+int timee;
+void dfs1_scc(int *ds1,int *fn1,vector < int > g[],int u,bool *vs1)
+{
+    ds1[u] = ++timee;//discovery time;
+    vs1[u] = 1;
+    for(int i = 0; i < g[u].size(); ++i)
+    {
+        int v = g[u][i];
+        if(!vs1[v])
+            dfs1_scc(ds1,fn1,g,v,vs1);
+    }
+    fn1[u] = ++timee;//finish time
+    st.push(u);
+}
+
+int a;
+vector < int > SCC[100];
+void dfs2_scc(int *ds2,int *fn2,vector < int > gt[],int u,bool *vs2)
+{
+    vs2[u] = 1;
+    ds2[u]= ++timee;
+
+    for(int i = 0; i < gt[u].size(); ++i)
+    {
+        int v = gt[u][i];
+        if(!vs2[v])
+        {
+            SCC[a-1].push_back(v);
+            dfs2_scc(ds2,fn2,gt,v,vs2);
+        }
+    }
+    fn2[u] = ++timee;
+}
+
+void stongly_component_connected(vector < int > g[],vector < int > gt[],int n,int *ds1,int *fn1,int *ds2,int *fn2)
+{
+    bool vs1[n+10], vs2[n+10];
+    memset(vs1,0,sizeof(vs1));
+    memset(vs2,0,sizeof(vs2));
+    timee = 0;
+    for(int i = 0; i <= n; ++i)
+    {
+        if(!vs1[i])
+            dfs1_scc(ds1,fn1,g,i,vs1);
+    }
+    cout << "Discover And Finish time for DIRECT Graph" << endl;
+    for(int i = 0; i <= n; ++i)
+        printf("Discover[%d] = %d, Finish[%d] = %d\n",i,ds1[i],i,fn1[i]);
+    cout << endl;
+
+    cout << "stack of connected component" << endl;
+    vector < int > x;
+    while(!st.empty())
+    {
+        x.push_back(st.top());
+        cout << st.top() << endl;
+        st.pop();
+    }
+    cout << endl;
+
+    timee = 0;
+    a = 0;
+    for(int i = 0; i < x.size(); ++i)
+    {
+        int u = x[i];
+        if(!vs2[u])
+        {
+            SCC[a++].push_back(u);
+            dfs2_scc(ds2,fn2,gt,u,vs2);
+        }
+
+    }
+
+    cout << "Discover And Finish time for REVERSE Graph" << endl;
+    for(int i = 0 ; i <= n; ++i)
+        printf("Discover2[%d] = %d, Finish2[%d] = %d\n",i,ds2[i],i,fn2[i]);
+    cout << endl;
+
+    cout << "Strongly Component Connected" << endl;
+    cout << "a = " << a << endl;
+    for(int i = 0; i < a; ++i)
+    {
+        for(int j = 0; j < SCC[i].size(); ++j)
+            cout << SCC[i][j] << " ";
+        cout << endl;
+        SCC[i].clear();
+    }
+}
+
+int main()
+{
+    int n, m;
+    while(cin >> n >> m)
+    {
+        vector < int > graph[n+10];
+        vector < int > graph_reverse[n+10];
+
+        for(int i = 1; i <= m; ++i)
+        {
+            int u, v;
+            cin >> u >> v;
+
+            graph[u].push_back(v);
+            graph_reverse[v].push_back(u);
+        }
+        int ds1[n+10], fn1[n+10];//direct graph
+        int ds2[n+10], fn2[n+10];//reverse graph;
+        memset(ds1,0,sizeof(ds1));
+        memset(fn1,0,sizeof(fn1));
+        memset(ds2,0,sizeof(ds2));
+        memset(fn2,0,sizeof(fn2));
+
+        stongly_component_connected(graph,graph_reverse,n,ds1,fn1,ds2,fn2);
+
+    }
+    return 0;
+}
