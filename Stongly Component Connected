@@ -1,6 +1,6 @@
 // I seek refuse with Allah , from the accursed shaytan(Devil)
 // In the of Allah , the entirely Merciful , the Specially Merciful
-// This Algorithm Is Implemented by DFS
+// This Algorithm Is Implemented by kosarajus Algorithm with DFS
 //Complexity O(V+E) FOR G, and GT;
 /*
 8 10
@@ -133,6 +133,77 @@ int main()
 
         stongly_component_connected(graph,graph_reverse,n,ds1,fn1,ds2,fn2);
 
+    }
+    return 0;
+}
+//////////////////////////////////////////////////////////////////////////////////
+
+//Strongly Component Connected
+//This is implemented by tarzan algorithm
+#include<bits/stdc++.h>
+using namespace std;
+stack < int > st;
+int timee;
+void tarjan_scc(int *ds,int *lw,bool *stm,vector < int > gh[],int u)//stm means stack_member
+{
+    ds[u] = lw[u] = ++timee;
+    st.push(u);
+    stm[u] = 1;
+
+    for(int i = 0; i < gh[u].size(); ++i)
+    {
+        int v = gh[u][i];
+        if(ds[v] == 0)
+        {
+            tarjan_scc(ds,lw,stm,gh,v);
+
+            lw[u] = min(lw[u], lw[v]);
+        }
+        else if(stm[v] == 1)
+            lw[u] = min(lw[u], ds[v]);
+    }
+
+    if(lw[u] == ds[u])
+    {
+        while(1)
+        {
+            int uu = st.top();
+            cout << uu << " ";
+            st.pop();
+            stm[uu] = 0;
+            if(u == uu)
+                break;
+        }
+        cout << endl;
+    }
+}
+
+int main()
+{
+    int n, m;
+    while(cin >> n >> m)
+    {
+        vector < int > gh[n+10];
+        for(int i = 1; i <= m; ++i)
+        {
+            int u, v;
+            cin >> u >> v;
+            gh[u].push_back(v);
+        }
+
+        int lw[n+10], ds[n+10];
+        bool stack_member[n+10];
+
+        memset(lw,0,sizeof(lw));
+        memset(ds,0,sizeof(ds));
+        memset(stack_member,0,sizeof(stack_member));
+
+        timee = 0;
+        for(int i = 0; i <= n; ++i)
+        {
+            if(!ds[i])
+                tarjan_scc(ds,lw,stack_member,gh,i);
+        }
     }
     return 0;
 }
