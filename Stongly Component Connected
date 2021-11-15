@@ -15,7 +15,7 @@
 7 6
 7 8
 */
-// UVA - 247 Calling Circles
+// UVA - 247 Calling Circles,11709 Trust groups,  11504 - Dominos
 /////////////////////////////////////
 // kosaraju updated
 #include<bits/stdc++.h>
