@@ -19,7 +19,8 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-stack < int > st;
+stack < int > st1;//stacks by stack
+vector < int > st2;//stacks by vector
 int timee;
 void dfs1_scc(int *ds1,int *fn1,vector < int > g[],int u,bool *vs1)
 {
@@ -32,25 +33,25 @@ void dfs1_scc(int *ds1,int *fn1,vector < int > g[],int u,bool *vs1)
             dfs1_scc(ds1,fn1,g,v,vs1);
     }
     fn1[u] = ++timee;//finish time
-    st.push(u);
+    st2.push_back(u);
+    st1.push(u);
 }
 
-int a;
-vector < int > SCC[100];
+int root;
+
 void dfs2_scc(int *ds2,int *fn2,vector < int > gt[],int u,bool *vs2)
 {
     vs2[u] = 1;
     ds2[u]= ++timee;
-
+    cout << u << " ";
     for(int i = 0; i < gt[u].size(); ++i)
     {
         int v = gt[u][i];
         if(!vs2[v])
-        {
-            SCC[a-1].push_back(v);
             dfs2_scc(ds2,fn2,gt,v,vs2);
-        }
     }
+    if(root == u)
+        cout << endl;
     fn2[u] = ++timee;
 }
 
@@ -70,43 +71,36 @@ void stongly_component_connected(vector < int > g[],vector < int > gt[],int n,in
         printf("Discover[%d] = %d, Finish[%d] = %d\n",i,ds1[i],i,fn1[i]);
     cout << endl;
 
-    cout << "stack of connected component" << endl;
+    cout << "Strongly Component Connected" << endl;
     vector < int > x;
-    while(!st.empty())
+    while(!st1.empty())
     {
-        x.push_back(st.top());
-        cout << st.top() << endl;
-        st.pop();
-    }
-    cout << endl;
-
-    timee = 0;
-    a = 0;
-    for(int i = 0; i < x.size(); ++i)
-    {
-        int u = x[i];
+        int u = st1.top();
+        x.push_back(u);
         if(!vs2[u])
         {
-            SCC[a++].push_back(u);
+            root = u;
             dfs2_scc(ds2,fn2,gt,u,vs2);
         }
+        st1.pop();
+    }
+    cout << endl;
+    timee = 0;
 
+    cout << "stack of connected component" << endl;
+    for(int i = st2.size()-1,j = 0; i >= 0; --i, ++j)
+    {
+        int u1 = x[j], u2 = st2[i];
+        cout << "stack = " << u1 << " , vector = " << u2 << endl;
+        st1.pop();
     }
 
+    st2.clear();
+    cout << endl;
     cout << "Discover And Finish time for REVERSE Graph" << endl;
     for(int i = 0 ; i <= n; ++i)
         printf("Discover2[%d] = %d, Finish2[%d] = %d\n",i,ds2[i],i,fn2[i]);
     cout << endl;
-
-    cout << "Strongly Component Connected" << endl;
-    cout << "a = " << a << endl;
-    for(int i = 0; i < a; ++i)
-    {
-        for(int j = 0; j < SCC[i].size(); ++j)
-            cout << SCC[i][j] << " ";
-        cout << endl;
-        SCC[i].clear();
-    }
 }
 
 int main()
@@ -125,6 +119,16 @@ int main()
             graph[u].push_back(v);
             graph_reverse[v].push_back(u);
         }
+        //we can reverse by that
+//        for(auto it = graph.begin(); it != graph.end(); ++it)
+//        {
+//            int u = it -> first;
+//            for(int i = 0; i < graph[u].size(); ++i)
+//            {
+//                int v = graph[u][i];
+//                graph_reverse[v].push_back(u);
+//            }
+//        }
         int ds1[n+10], fn1[n+10];//direct graph
         int ds2[n+10], fn2[n+10];//reverse graph;
         memset(ds1,0,sizeof(ds1));
@@ -137,6 +141,7 @@ int main()
     }
     return 0;
 }
+
 //////////////////////////////////////////////////////////////////////////////////
 
 //Strongly Component Connected
