@@ -16,6 +16,114 @@
 7 8
 */
 // UVA - 247 Calling Circles
+/////////////////////////////////////
+// kosaraju updated
+#include<bits/stdc++.h>
+using namespace std;
+vector < int > g[300];
+vector < int > gt[300];
+stack < int > st1;
+vector < int > st2;
+bool vs[300];
+void reversee_graph(int n)
+{
+    for(int i = 0; i <= n; ++i)
+    {
+        int u = i;
+        for(int j = 0; j < g[u].size(); ++j)
+        {
+            int v = g[u][j];
+            gt[v].push_back(u);
+        }
+    }
+}
+void dfs1(int u)
+{
+    vs[u] = 1;
+    for(int v: g[u])
+    {
+        if(!vs[v])
+            dfs1(v);
+    }
+    st1.push(u);
+    st2.push_back(u);
+}
+int root;
+void dfs2(int u)
+{
+    vs[u] = 1;
+    cout << u << " ";
+    for(int v: gt[u])
+    {
+        if(!vs[v])
+            dfs2(v);
+    }
+    if(root == u)
+        cout << endl;
+}
+
+void clearr(int n)
+{
+    for(int i = 0; i <= n; ++i)
+    {
+        g[i].clear();
+        gt[i].clear();
+    }
+}
+
+
+void kosaraju(int n)
+{
+    memset(vs,0,sizeof(vs));
+    for(int i = 0; i <= n; ++i)
+    {
+        if(!vs[i])
+            dfs1(i);
+    }
+    reversee_graph(n);
+
+    memset(vs,0,sizeof(vs));
+    while(!st1.empty())
+    {
+        int u = st1.top();
+        if(!vs[u])
+        {
+            root = u;
+            dfs2(u);
+        }
+        st1.pop();
+    }
+//    for(int i = st2.size()-1; i >= 0; --i)
+//    {
+//        int u = st2[i];
+//        if(!vs[u])
+//        {
+//            root = u;
+//            dfs2(u);
+//        }
+//
+//    }
+    clearr(n);
+}
+
+int main()
+{
+    int n, m;
+    while(cin >> n >> m)
+    {
+        for(int i = 1; i <= m; ++i)
+        {
+            int u, v;
+            cin >> u >> v;
+            g[u].push_back(v);
+            //gt[v].push_back(u);
+        }
+        kosaraju(n);
+    }
+    return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -120,12 +228,12 @@ int main()
             graph_reverse[v].push_back(u);
         }
         //we can reverse by that
-//        for(auto it = graph.begin(); it != graph.end(); ++it)
+//        for(auto i = 0; i <= n; ++i)
 //        {
-//            int u = it -> first;
-//            for(int i = 0; i < graph[u].size(); ++i)
+//            int u = i;
+//            for(int j = 0; j < graph[u].size(); ++j)
 //            {
-//                int v = graph[u][i];
+//                int v = graph[u][j];
 //                graph_reverse[v].push_back(u);
 //            }
 //        }
