@@ -1,6 +1,3 @@
-// In the name of Allah , the entirely merciful, the specially merciful
-// Alhamdulillah
-// Implemented by DFS
 #include<bits/stdc++.h>
 using namespace std;
 const int N = 250;
