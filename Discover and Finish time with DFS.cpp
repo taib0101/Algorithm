@@ -1,4 +1,3 @@
-//In the name of Allah , the entirelly mercifull , the spacially mercifull
 #include<bits/stdc++.h>
 using namespace std;
 int timee;
