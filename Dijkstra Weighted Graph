@@ -1,6 +1,4 @@
-/// In the name of Allah , the entriy mercifull, the specialy mercifull
-/////////////////////
-with priority_queue solution
+// with priority_queue solution
 #include<bits/stdc++.h>
 using namespace std;
 const int r = 100000;
