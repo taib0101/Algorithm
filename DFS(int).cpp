@@ -1,4 +1,3 @@
-        /////// Allahu Akbar ///////
 #include<bits/stdc++.h>
 using namespace std;
 vector < int > vec[100];
