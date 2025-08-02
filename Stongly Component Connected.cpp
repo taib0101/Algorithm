@@ -1,5 +1,3 @@
-// I seek refuse with Allah , from the accursed shaytan(Devil)
-// In the of Allah , the entirely Merciful , the Specially Merciful
 // This Algorithm Is Implemented by kosarajus Algorithm with DFS
 //Complexity O(V+E) FOR G, and GT;
 /*
