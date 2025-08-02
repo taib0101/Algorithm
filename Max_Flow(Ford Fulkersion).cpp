@@ -1,5 +1,3 @@
-//In the name of Allah , the entirely merciful, the specially merciful
-// Alhamdulillah
 /*
 6 7
 1 2 2
