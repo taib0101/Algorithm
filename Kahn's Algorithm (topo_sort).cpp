@@ -1,4 +1,3 @@
-//In the name of Allah ,the entirely merciful, the specially merciful
 //Kahn's Algorithm with Topological implemented by queue which is learnt from bfs
 /*
 5
